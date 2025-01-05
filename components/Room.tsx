@@ -1,17 +1,10 @@
-
-'use client';
-
-import { use } from "react";
 import { useMyPresence, useOthers } from "@liveblocks/react/suspense";
-import Document from "@/components/Document";
-import Cursor from "@/components/Cursor";
+import Cursor from "./Cursor";
 
-export default function Page({
-  params
-}: { params: Promise<{ id: string; }>; }
-) {
-  const { id } = use(params);
+export function Room() {
   const [myPresence, updateMyPresence] = useMyPresence();
+
+  // Get list of other users
   const others = useOthers();
 
   function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {
@@ -22,15 +15,15 @@ export default function Page({
 
   function handlePointerLeave() {
     updateMyPresence({ cursor: null });
-  }
+  } 
 
   return (
-
     <div
-      className="min-h-screen"
+      style={{ width: "100vw", height: "100vh" }}
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
     >
+
       Cursor: {JSON.stringify(myPresence.cursor)}
       {others.length}
 
@@ -42,15 +35,12 @@ export default function Page({
             x={presence.cursor!.x}
             y={presence.cursor!.y}
             info={{
-              name: info.name,
-              email: info.email,
-              avatar: info.avatar
+              name: 'name',
+              email: 'emailxxx',
+              avatar: 'avatar'
             }}
           />
         ))}
-
-      <Document id={id} />
     </div>
-
   );
 }
